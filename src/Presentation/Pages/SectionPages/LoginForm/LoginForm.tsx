@@ -50,14 +50,24 @@ const LoginForm:React.FC = ({history}:any) =>{
       <ContainerImage />
       <Container>
         <h1>Login</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input type="text" 
+        <form 
+        onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            type="text"
             placeholder="Login" 
             name="login" 
             error={errors['login'] ? errors['login'].message: '' } 
-            register={register({required: true, })}/>
-          <Input type="password"placeholder="Senha" name="password" error={errors['password'] ? errors['password'].message: '' }  register={register({required:true, minLength: 2})}/>
-          <Button type='submit' loading={loading}>Logar</Button>
+            register={register({ required: true, })}
+          />
+          <Input type="password"
+            placeholder="Senha"
+            name="password"
+            error={errors['password'] ? errors['password'].message : ''}
+            register={register({ required: true, minLength: 2 })}
+          />
+          <Button type='submit' loading={loading}>
+            Logar
+          </Button>
           <p>{errorMessage}</p>
         </form>
         <Link to="/signup">Criar Conta</Link>
