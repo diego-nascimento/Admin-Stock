@@ -15,6 +15,7 @@ export class LoginRequest implements ILoginRequest{
           throw new Error('Login or password')
       }
     } catch (error) {
+      
       throw new Error(error.message)
     }
   }

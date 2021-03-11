@@ -1,6 +1,6 @@
 import React from 'react'
 import {Wrapper, Container, ContainerImage} from './LoginForm.style'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import Input from '../../../Components/Input/Input'
 import { useForm } from "react-hook-form";
 import Button from '../../../Components/Button/Button'
@@ -8,7 +8,8 @@ import Button from '../../../Components/Button/Button'
 import {LoginFactory} from '../../../../Main/Factory/Section/LoginFactory' 
 
 import * as yup from 'yup'
-import {yupResolver} from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 
 
 interface ILogin{
@@ -21,19 +22,23 @@ const schema = yup.object().shape({
   password: yup.string().required().min(8)
 })
 
-const LoginForm:React.FC = ({history}:any) =>{
+const LoginForm:React.FC = () =>{
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
   });
   const [loading, setLoading] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState('')
+  const history = useHistory()
+
+  
 
   const onSubmit = async (data: ILogin) =>{
     setLoading(true)
     try {
       const Login = LoginFactory()
       const response = await Login.login(data)
-      console.log(response)
+      await localStorage.setItem('token', response);
+      history.push('/produtos')
     }catch (error) {
         setErrorMessage('Login or User incorrect')
         setTimeout(()=>{

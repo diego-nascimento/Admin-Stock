@@ -7,8 +7,8 @@ import EmailConfirmation from '../EmailConfirmation/EmailConfirmation'
 const Login:React.FC = () =>{
   return(
       <Switch>
-        <Route path="/" exact  component={LoginForm} />
-        <Route path="/signup" component={SignUp} />
+        <Route path="/" exact component={LoginForm} />
+        <Route path="/signup"  exact component={SignUp} />
         <Route path="/email_confirmation" component={EmailConfirmation} />
       </Switch>
   );
