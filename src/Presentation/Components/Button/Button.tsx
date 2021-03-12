@@ -9,7 +9,7 @@ interface IButton{
 }
 
 const Button: React.FC<IButton> = ({children, type, loading = false})=>{
-  return <ButtonForm type={type} >{loading ? <Spinner animation="border" variant="white"/>: children }</ButtonForm>
+  return <ButtonForm type={type} disabled={loading} >{loading ? <Spinner animation="border" variant="white"/>: children }</ButtonForm>
 }
 
 export default Button

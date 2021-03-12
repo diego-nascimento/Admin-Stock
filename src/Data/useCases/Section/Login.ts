@@ -1,4 +1,4 @@
-import { ILogin, ILoginEntry } from "../../../Domain/useCases/Section/Login";
+import { ILogin, ILoginEntry, ILoginReturn } from "../../../Domain/useCases/Section/Login";
 import { ILoginRequest } from "../../protocols/LoginRequest";
 
 
@@ -9,7 +9,7 @@ export class LoginData implements ILogin{
     this.LoginRequest = loginRequest
   }
 
-  async login({login, password}:ILoginEntry):Promise<string>{
+  async login({login, password}:ILoginEntry):Promise<ILoginReturn>{
     const Request: ILoginEntry = {
       login, password
     }

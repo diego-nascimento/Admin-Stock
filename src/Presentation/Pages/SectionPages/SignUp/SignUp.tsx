@@ -5,13 +5,11 @@ import Input from '../../../Components/Input/Input'
 import { useForm } from "react-hook-form";
 import Button from '../../../Components/Button/Button'
 import {BiArrowBack} from 'react-icons/bi'
-import {SignUpFactory} from '../../../../Main/Factory/Section/SignUpFactory'
-import { ISignUpEntry } from '../../../../Domain/useCases/Section/SignUp';
 import { User } from '../../../../Domain/protocols/User/user';
 import MessageSuccess from './MessageSucess'
-
 import * as yup from 'yup'
-import {yupResolver} from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import {UserContext} from '../../../../Main/Context/userContext'
 
 
 const schema = yup.object().shape({
@@ -20,49 +18,27 @@ const schema = yup.object().shape({
   password: yup.string().min(8).required()
 })
 
-
-
-const SignUp:React.FC = ({history}:any) =>{
+const SignUp:React.FC = () =>{
   const { register, handleSubmit, errors } = useForm({
+
     resolver: yupResolver(schema)
   });
-  const [loading, setLoading] = React.useState(false)
-  const [errorMessage, setErrorMessage] = React.useState('')
-  const [user, setUser] = React.useState<null | User>(null)
-
-
-  const onSubmit = async (data: ISignUpEntry) =>{
-    setLoading(true)
-    try {
-      const signUp = SignUpFactory()
-      const response = await signUp.signup(data)
-      const usuario:User = {
-        email: response.email,
-        nome: response.nome
-      }
-      setUser(usuario)
-    }catch (error) {
-        setErrorMessage(error.message)
-        setTimeout(()=>{
-        setErrorMessage('')
-        }, 5000)
-    }finally{
-      setLoading(false)
-    }
-  }
   
+  const [userMessage, setUserMessage] = React.useState<null | User>(null)
+  const {loading, signupMethod, errorMessage} = React.useContext(UserContext)
+
 
   return(
     <Wrapper>
       <ContainerImage />
-      {user?
-        <MessageSuccess data={user}/>
+      {userMessage?
+        <MessageSuccess data={userMessage}/>
         :<Container>
           <div className="back">
             <Link to="/"><BiArrowBack /><h2>Login</h2></Link>
             </div>
           <h1>Cadastro</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(data => signupMethod(data, setUserMessage))}>
             <Input type="text" 
               placeholder="nome" 
               name="nome" 

@@ -1,5 +1,5 @@
-import { ILoginEntry } from "../../Domain/useCases/Section/Login";
+import { ILoginEntry, ILoginReturn } from "../../Domain/useCases/Section/Login";
 
 export interface ILoginRequest{
-  login({login, password}: ILoginEntry):Promise<string>
+  login({login, password}: ILoginEntry):Promise<ILoginReturn>
 }

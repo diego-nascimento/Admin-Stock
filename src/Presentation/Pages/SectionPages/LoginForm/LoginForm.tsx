@@ -1,62 +1,31 @@
 import React from 'react'
 import {Wrapper, Container, ContainerImage} from './LoginForm.style'
-import {Link, useHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Input from '../../../Components/Input/Input'
 import { useForm } from "react-hook-form";
 import Button from '../../../Components/Button/Button'
-
-import {LoginFactory} from '../../../../Main/Factory/Section/LoginFactory' 
-
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-
-
-interface ILogin{
-  login: string,
-  password: string
-}
+import { UserContext } from '../../../../Main/Context/userContext'
 
 const schema = yup.object().shape({
   login: yup.string().email().required(),
   password: yup.string().required().min(8)
 })
 
-const LoginForm:React.FC = () =>{
+const LoginForm:React.FC<any> = () =>{
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
   });
-  const [loading, setLoading] = React.useState(false)
-  const [errorMessage, setErrorMessage] = React.useState('')
-  const history = useHistory()
-
+  const { login, loading, errorMessage } = React.useContext(UserContext)
   
-
-  const onSubmit = async (data: ILogin) =>{
-    setLoading(true)
-    try {
-      const Login = LoginFactory()
-      const response = await Login.login(data)
-      await localStorage.setItem('token', response);
-      history.push('/produtos')
-    }catch (error) {
-        setErrorMessage('Login or User incorrect')
-        setTimeout(()=>{
-          setErrorMessage('')
-        }, 5000)
-    }finally{
-      setLoading(false)
-    }
-  }
-  
-
   return(
     <Wrapper>
       <ContainerImage />
       <Container>
         <h1>Login</h1>
         <form 
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(login)}>
           <Input
             type="text"
             placeholder="Login" 

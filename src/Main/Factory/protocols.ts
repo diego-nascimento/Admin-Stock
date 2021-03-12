@@ -9,4 +9,8 @@
 
   //Account Verify Factory
   export * from '../../Infra/Api/Axios/Requests/Section/AccountVerification/VerifyAccount'
-  export * from '../../Data/useCases/Section/VerifyAccount'
+export * from '../../Data/useCases/Section/VerifyAccount'
+  
+//Authentication
+export * from '../../Infra/Api/Axios/Requests/Section/Authentication/AuthenticationRequest'
+  export * from '../../Data/useCases/Section/Authentication'

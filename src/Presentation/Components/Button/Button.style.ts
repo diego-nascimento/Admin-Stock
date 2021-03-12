@@ -7,5 +7,5 @@ export const ButtonForm= styled.button`
   border: none;
   background-color: black;
   color: #ddd;
-  font-size: 1.2rem; 
+  font-size: 1.2rem;
 `;
